@@ -1,13 +1,28 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, Radio, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { RegisterUsers } from "../calls/users";
 
 
 function Register() {
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     console.log(values);
-   
+    try {
+      const response = await RegisterUsers(values);
+      console.dir(response, {depth:null});
+      if(response) {
+        message.success(response.message);
+        navigate('/login');
+      } else {
+        message.error(response.message);
+      }
+    } catch(err) {
+      console.error(err);
+    }
   };
+
+
 
 
 
